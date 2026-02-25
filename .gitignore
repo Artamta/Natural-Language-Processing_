@@ -1,6 +1,5 @@
 
-#ignore these files
-/Users/ayush/Desktop/NLP/Self_study/corpora/
-/Users/ayush/Desktop/NLP/Assignment1_Word2Vector/Downloaded_data/
-/Users/ayush/Desktop/NLP/Assignment1_Word2Vector/data/
-
+# Ignore data folders
+Self_study/corpora/
+Assignment1_Word2Vector/Downloaded_data/
+Assignment1_Word2Vector/data/
