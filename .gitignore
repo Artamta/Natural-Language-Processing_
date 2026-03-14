@@ -1,5 +1,14 @@
+# Ignore everything
+*
 
-# Ignore data folders
-Self_study/corpora/
-Assignment1_Word2Vector/Downloaded_data/
-Assignment1_Word2Vector/data/
+# Allow folders
+!*/
+
+# Allow PDFs
+
+!*.pdf
+
+#Python Files
+
+!*.py
+!*.ipynb
