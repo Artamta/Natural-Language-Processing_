@@ -18,10 +18,9 @@ def sigmoid(x):
     """
 
     ### YOUR CODE HERE (~1 Line)
-    #numerically stable
-    #1 / (1 + np.exp(-x))--normal
 
     s = np.where(x >= 0, 1 / (1 + np.exp(-x)), np.exp(x) / (1 + np.exp(x)))
+
     ### END YOUR CODE
 
     return s
@@ -63,24 +62,18 @@ def naiveSoftmaxLossAndGradient(
     """
 
     ### YOUR CODE HERE (~6-8 Lines)
-
-    ### Please use the provided softmax function (imported earlier in this file)--used s
+    ### Please use the provided softmax function (imported earlier in this file)
     ### This numerically stable implementation helps you avoid issues pertaining
-    ### to integer overflow.
-    # -- used numerical stable s
-    
+    ### to integer overflow. 
     y_hat = softmax(np.dot(outsideVectors, centerWordVec))
 
     loss = -np.log(y_hat[outsideWordIdx])
 
     y = y_hat.copy()
-
     y[outsideWordIdx] -= 1
 
     gradCenterVec = np.dot(outsideVectors.T, y)
-
     gradOutsideVecs = np.outer(y, centerWordVec)
-
     ### END YOUR CODE
 
     return loss, gradCenterVec, gradOutsideVecs
@@ -125,11 +118,9 @@ def negSamplingLossAndGradient(
     indices = [outsideWordIdx] + negSampleWordIndices
 
     ### YOUR CODE HERE (~10 Lines)
-
     ### Please use your implementation of sigmoid in here.
-    labels = np.ones(K + 1, dtype=outsideVectors.dtype)
-    labels[1:] = -1
-    indices = np.array(indices, dtype=np.int64)
+
+    labels = np.array([1] + [-1 for _ in range(K)])
     vecs = outsideVectors[indices]
 
     scores = vecs.dot(centerWordVec) * labels
@@ -140,7 +131,8 @@ def negSamplingLossAndGradient(
     gradCenterVec = delta.dot(vecs)
 
     gradOutsideVecs = np.zeros_like(outsideVectors)
-    np.add.at(gradOutsideVecs, indices, delta[:, None] * centerWordVec)
+    for i, idx in enumerate(indices):
+        gradOutsideVecs[idx] += delta[i] * centerWordVec
 
     ### END YOUR CODE
 
@@ -186,7 +178,7 @@ def skipgram(currentCenterWord, windowSize, outsideWords, word2Ind,
     gradCenterVecs = np.zeros(centerWordVectors.shape)
     gradOutsideVectors = np.zeros(outsideVectors.shape)
 
-    ### YOUR CODE HERE (~8 Lines)
+    ### YOUR CODE HERE (~10 Lines)
     centerWordIdx = word2Ind[currentCenterWord]
     centerWordVec = centerWordVectors[centerWordIdx]
 
